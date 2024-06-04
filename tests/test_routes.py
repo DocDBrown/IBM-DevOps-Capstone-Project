@@ -140,4 +140,3 @@ class TestAccountService(TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
-
