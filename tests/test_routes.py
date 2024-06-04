@@ -140,8 +140,8 @@ class TestAccountService(TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_update_an_account(self):
-        """Should update an account with account_id"""
+    def test_update_account(self):
+        """It Should update account with account_id"""
         test_account = AccountFactory()
         resp = self.client.post(
             BASE_URL,
@@ -161,3 +161,11 @@ class TestAccountService(TestCase):
         """It should return 404 if update account not found"""
         resp = self.client.put(f"{BASE_URL}/0", content_type="application/json")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_an_account(self):
+        """It Should delete an account with account_id"""
+        account = self._create_accounts(1)[0]
+        resp = self.client.delete(
+            f"{BASE_URL}/{account.id}"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
