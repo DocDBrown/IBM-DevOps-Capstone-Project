@@ -25,6 +25,7 @@ HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
+
 class TestAccountService(TestCase):
     """Account Service Tests"""
 
@@ -135,10 +136,10 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(data["name"], account.name)
-    
+
     def test_account_not_found(self):
         """It should not read an account that isnt found"""
-        resp = self.client.get (
+        resp = self.client.get(
             f"{BASE_URL}/0", content_type="application/json"
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
@@ -159,7 +160,7 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         updated_account = resp.get_json()
         self.assertEqual(updated_account["name"], "Testy McTester")
-    
+
     def test_update_account_not_found(self):
         """It should return 404 if update account not found"""
         resp = self.client.put(f"{BASE_URL}/0", content_type="application/json")
@@ -172,11 +173,11 @@ class TestAccountService(TestCase):
             f"{BASE_URL}/{account.id}"
         )
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
-    
+
     def test_list_all_accounts(self):
         """It should list all accounts"""
         self._create_accounts(5)
-        resp =self.client.get(
+        resp = self.client.get(
             BASE_URL,
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
@@ -187,7 +188,7 @@ class TestAccountService(TestCase):
         """It should not allow an illegal method call"""
         resp = self.client.delete(
             BASE_URL
-        ) 
+        )
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_secuirty_headers(self):
@@ -206,7 +207,7 @@ class TestAccountService(TestCase):
     def test_cors(self):
         """It established cross origin rescource sharing"""
         response = self.client.get(
-            '/', 
+            '/',
             environ_overrides=HTTPS_ENVIRON
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
